@@ -11,6 +11,7 @@ import {
  limitToLast,
  updateDoc,
  deleteDoc,
+ setDoc,
 } from "firebase/firestore";
 import app from "@/lib/firebase/init";
 
@@ -51,11 +52,24 @@ export async function filterDataById(collectionName, id) {
  return result;
 }
 
-export async function addData(collectiongName, data) {
- const docRef = await addDoc(collection(firestore, collectiongName), data);
- console.log("Document written with ID: ", docRef.id);
- console.log("Document: ", docRef);
- return docRef;
+export async function addData(collectionName, data, customId = null) {
+ try {
+  let docRef;
+  if (customId) {
+   // Buat referensi dokumen dengan ID kustom
+   docRef = doc(collection(firestore, collectionName), customId);
+   await setDoc(docRef, data);
+   console.log("Document written with custom ID: ", customId);
+  } else {
+   docRef = await addDoc(collection(firestore, collectionName), data);
+   console.log("Document written with auto-generated ID: ", docRef.id);
+  }
+  console.log("Document: ", docRef);
+  return docRef;
+ } catch (error) {
+  console.error("Error adding document: ", error);
+  throw error;
+ }
 }
 
 export async function updateData(collectiongName, id, data) {
