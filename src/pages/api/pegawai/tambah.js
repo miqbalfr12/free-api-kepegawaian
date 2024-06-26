@@ -11,9 +11,9 @@ export default async function handler(req, res) {
   }
   const data = await addData("pegawai", req.body);
   const ResponseInit = {
-   status: 200,
+   status: 201,
    statusText: "OK",
   };
-  res.status(200).json({...ResponseInit, message: {...req.body, id: data.id}});
+  res.status(201).json({...ResponseInit, message: {...req.body, id: data.id}});
  }
 }

@@ -34,12 +34,9 @@ export async function retrieveDataById(collectionName, id) {
  return data;
 }
 
-export async function filterDataById(collectionName, id) {
- console.log(collectionName, id);
- const q = query(
-  collection(firestore, collectionName),
-  where("pegawai", "==", id)
- );
+export async function filterDataById(collectionName, by, id) {
+ console.log(collectionName, by, id);
+ const q = query(collection(firestore, collectionName), where(by, "==", id));
  const querySnapshot = await getDocs(q);
 
  const result = [];

@@ -6,14 +6,7 @@ export default async function handler(req, res) {
   return res.status(405).json({message: "Method not allowed"});
  }
  if (req.method === "GET") {
-  const data = await retrieveDataById("pegawai", req.query.id);
-  const kehadiran = await filterDataById("kehadiran", "pegawai", req.query.id);
-
-  kehadiran.map((kehadiran) => {
-   delete kehadiran.pegawai;
-  });
-
-  data.kehadiran = kehadiran.sort((a, b) => a.timestamp - b.timestamp);
+  const data = await retrieveDataById("kehadiran", req.query.id);
 
   const ResponseInit = {status: 200, statusText: "OK"};
   res.status(200).json({...ResponseInit, message: data});
